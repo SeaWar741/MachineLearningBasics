@@ -5,6 +5,8 @@ import math
 from sklearn import preprocessing, model_selection, svm
 from sklearn.linear_model import LinearRegression
 
+quandl.ApiConfig.api_key = "V1_51HQ6K5w73By3zqR_"
+
 df = quandl.get('WIKI/GOOGL')
 
 df = df[['Adj. Open','Adj. High','Adj. Low','Adj. Close','Adj. Volume']]
@@ -14,7 +16,7 @@ df['PCT_change'] = (df['Adj. Close']-df['Adj. Open'])/df['Adj. Open']*100.0
 
 df = df[['Adj. Close','HL_PCT','PCT_change','Adj. Volume']] #features
 
-#print(df.head())
+print(df.head())
 
 forecast_col = 'Adj. Close'
 df.fillna(-99999,inplace=True)
@@ -22,7 +24,7 @@ forecast_out = int(math.ceil(0.01*len(df))) #ceil redondea, predecir 10% del dat
 
 df['label'] = df[forecast_col].shift(-forecast_out) #se mueve a +10 dias en el futuro
 df.dropna(inplace=True)
-#print(df.head())
+print(df.head())
 
 X = np.array(df.drop(['label'],1))
 Y = np.array(df['label'])
